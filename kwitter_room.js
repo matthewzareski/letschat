@@ -1,13 +1,16 @@
 
 //ADD YOUR FIREBASE LINKS HERE
 var firebaseConfig = {
-      apiKey: "AIzaSyADXkPK6fWcU00KC8KobDCdc1_WgU4smL0",
-      authDomain: "gamechat-978ba.firebaseapp.com",
-      projectId: "gamechat-978ba",
-      storageBucket: "gamechat-978ba.appspot.com",
-      messagingSenderId: "619837110610",
-      appId: "1:619837110610:web:749d5f56c228bf1b9c628b"
+      apiKey: "AIzaSyAPyyw7-uVrTOg_PATti-Kb5VE3VNx0qpI",
+      authDomain: "kwitter-1219c.firebaseapp.com",
+      databaseURL: "https://kwitter-1219c-default-rtdb.firebaseio.com",
+      projectId: "kwitter-1219c",
+      storageBucket: "kwitter-1219c.appspot.com",
+      messagingSenderId: "466220643678",
+      appId: "1:466220643678:web:521aeefff5a9bf88360bcf"
     };
+    
+    // Initialize Firebase
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
 
@@ -44,4 +47,32 @@ function redirectToRoomName(name)
       console.log(name);
       localStorage.setItem("room_name", name);
       window.location = "kwitter_page.html";
+}
+function send(){
+      msg = document.getElementById("message").value;
+      firebase.database().ref(room_name).push({
+      name:user_name,
+      message:msg,
+      like:0
+      });
+      document.getElementById("message").value="";
+      console.log("Message is sent!");
+}
+
+function updateLike(message_id){
+      console.log("clicked on like button - " + message_id);
+      button_id = message_id;
+      likes = document.getElementById(button_id).value;
+      update_likes = Number(likes) + 1;
+      console.log(updated_likes);
+
+      firebase.database().ref(room_name).child(message_id).update({
+            like : update_likes
+      });
+}
+
+function logout(){
+      localStorage.removeItem("user_name");
+      localStorage.removeitem("room_name");
+      window.location.replace("index.html");
 }
